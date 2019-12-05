@@ -1,0 +1,6 @@
+127.0.0.1 - - [21/Nov/2018:12:04:35 +0100] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [21/Nov/2018:12:04:40 +0100] "GET /RESTWebService/ HTTP/1.1" 404 1093
+127.0.0.1 - - [21/Nov/2018:12:04:40 +0100] "GET /favicon.ico HTTP/1.1" 404 1085
+127.0.0.1 - - [21/Nov/2018:12:04:54 +0100] "GET /RESTWebService/rest/rad/products HTTP/1.1" 200 8392
+127.0.0.1 - - [21/Nov/2018:12:06:30 +0100] "GET /RESTWebService/rest/rad/products HTTP/1.1" 200 8392
+127.0.0.1 - - [21/Nov/2018:12:06:30 +0100] "GET /RESTWebService/rest/rad/filterSelectOptions HTTP/1.1" 200 417

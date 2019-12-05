@@ -1,0 +1,7 @@
+127.0.0.1 - - [09/Jul/2019:22:22:38 +0200] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [09/Jul/2019:22:22:40 +0200] "GET /LibraryManagement/ HTTP/1.1" 404 1096
+127.0.0.1 - - [09/Jul/2019:22:22:40 +0200] "GET /LibraryManagement/rest/libraryService/member HTTP/1.1" 200 3424
+127.0.0.1 - - [09/Jul/2019:22:22:40 +0200] "GET /favicon.ico HTTP/1.1" 404 1085
+127.0.0.1 - - [09/Jul/2019:22:22:54 +0200] "GET /LibraryManagement/rest/libraryService/book HTTP/1.1" 200 8735
+127.0.0.1 - - [09/Jul/2019:22:22:55 +0200] "GET /LibraryManagement/rest/libraryService/book_borrowing HTTP/1.1" 200 3628
+127.0.0.1 - - [09/Jul/2019:22:22:57 +0200] "GET /LibraryManagement/rest/libraryService/member HTTP/1.1" 200 3424

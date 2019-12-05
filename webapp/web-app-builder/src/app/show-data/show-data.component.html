@@ -1,0 +1,78 @@
+<div *ngIf="showInsertDataForm" [hidden]="hideInsertDataFormOnSave">
+  <app-insert-data [typeData]="typeData" [baseTitle]="baseTitle" [fields]="insertDataFormFields"
+    [fieldAppearance]="fieldAppearance" (submit)="completeInsert($event)">
+  </app-insert-data>
+</div>
+
+<div *ngIf="showUpdateDataForm" [hidden]="hideUpdateDataFormOnSave">
+  <app-update-data [typeData]="typeData" [baseTitle]="baseTitle" [dataForUpdate]="selectedDataForUpdate"
+    [fields]="updateDataFormFields" [primaryKeyFormFields]="primaryKeyFormFields" [fieldAppearance]="fieldAppearance" (submit)="completeUpdate($event)"></app-update-data>
+</div>
+
+<div [hidden]="loadingData || !hideInsertDataFormOnSave || !hideUpdateDataFormOnSave">
+  <h2>{{currentShowDataLabel}}</h2>
+  <br/>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.columnDef">
+
+      <div *ngIf="column.columnDef !=='cdCrudActionsMatColumn'">
+        <th mat-header-cell *matHeaderCellDef>
+          <span mat-sort-header>{{column.header}}</span>
+          <ng-container *ngIf="column.searchField != null" dynamicField [field]="column.searchField"
+            [group]="searchForm">
+          </ng-container>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index;">
+          <span *ngIf="column.searchField != null && column.searchField.type === 'checkbox'">
+            <mat-checkbox disabled [checked]='column.cell(element)'></mat-checkbox>
+          </span>
+          <span *ngIf="column.searchField != null && column.searchField.type !== 'checkbox'">
+            {{column.cell(element)}}
+          </span>
+          <span *ngIf="column.searchField == null">
+            {{paginator.pageIndex * paginator.pageSize + i + 1}}
+          </span>
+        </td>
+      </div>
+
+      <div *ngIf="column.columnDef ==='cdCrudActionsMatColumn'">
+        <mat-header-cell *matHeaderCellDef>
+          <button mat-button class="mat-searchButton-background" (click)="clearSearch()">Clear search</button>
+          <button *ngIf="tableConfig.crudActionsConfig.showCreateAction" mat-icon-button color="primary"
+            (click)="insert()">
+            <mat-icon class="add-mat-icon" aria-label="Add">add</mat-icon>
+          </button>
+        </mat-header-cell>
+
+        <mat-cell *matCellDef="let element; let i=index;">
+          <button *ngIf="tableConfig.crudActionsConfig.showReadAction" mat-icon-button class="view-button-foreground"
+            (click)="(!selection.isSelected(row))? selection.toggle(row) : null; viewDataDetails(element);">
+            <mat-icon class="view-mat-icon" aria-label="View">remove_red_eye</mat-icon>
+          </button>
+          <button *ngIf="tableConfig.crudActionsConfig.showUpdateAction" mat-icon-button
+            class="update-button-foreground" (click)="(!selection.isSelected(row))? selection.toggle(row) : null; update(element);">
+            <mat-icon class="edit-mat-icon" aria-label="Edit">edit</mat-icon>
+          </button>
+          <button *ngIf="tableConfig.crudActionsConfig.showDeleteAction" mat-icon-button
+            class="delete-button-foreground" (click)="(!selection.isSelected(row))? selection.toggle(row) : null; deleteData(element)">
+            <mat-icon class="delete-mat-icon" aria-label="Delete">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </div>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)" [ngClass]="{ 'selected': selection.isSelected(row)}"></tr>
+  </table>
+</div>
+<div [hidden]="showUpdateDataForm || showInsertDataForm || isEmptyTable">
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+<div *ngIf="loadingData" class="loading-spinner">
+  <div>
+    <mat-spinner mode="indeterminate" class="mat-spinner-margin"></mat-spinner>
+    <div class="mat-spinner-text-wrapper">
+      <span class="mat-spinner-text">Loading...</span>
+    </div>
+  </div>
+</div>

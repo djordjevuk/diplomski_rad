@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-sm>
+    <button mat-icon-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+      <span>&nbsp;{{title}}</span>
+    </button>
+  </div>
+  <div class="menu-bar-link-container" fxFlex fxLayout fxHide.xs fxHide.sm>
+    <ng-container *ngFor="let link of menu;" dynamicField [field]="link">
+    </ng-container>
+  </div>
+</mat-toolbar>

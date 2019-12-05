@@ -1,0 +1,167 @@
+package org.unibl.etf.dr.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.unibl.etf.dr.dto.Subject;
+
+public class SubjectDAO {
+
+	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
+
+	private static final String SELECT_SUBJECTS = "select s.*, f.name from subject as s inner join faculty as f on s.idFaculty=f.id where s.deleted=?;";
+	private static final String INSERT_SUBJECT = "insert into subject(name, code, ects, numberOfClasses, idFaculty) values(?,?,?,?,?);";
+	private static final String UPDATE_SUBJECT = "update subject set name=?, code=?, ects=?, numberOfClasses=?, idFaculty=? where id=?;";
+	private static final String DELETE_SUBJECT = "update subject set deleted=? where id=?;";
+	private static final String SELECT_SUBJECT_WITH_ID = "select s.*, f.name from subject as s inner join faculty as f on s.idFaculty=f.id where s.id=?;";
+
+	
+	public static JSONArray selectSubjects() {
+		JSONObject json = null;
+		JSONObject data = null;
+		JSONArray array = new JSONArray();
+		Connection conn = null;
+		ResultSet rs = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { false };
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, SELECT_SUBJECTS, false, parametri);
+		try {
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				json = new JSONObject();
+				data = new JSONObject();
+				data.put("id", rs.getInt("id"));
+				data.put("subjectName", rs.getString("s.name"));
+				data.put("code", rs.getString("code"));
+				data.put("ects", rs.getString("ects"));
+				data.put("numberOfClasses", rs.getInt("numberOfClasses"));
+				data.put("idFaculty", rs.getInt("idFaculty"));
+				data.put("facultyName", rs.getString("f.name"));
+				json.put("dataObject", data);
+				array.put(json);
+				json = new JSONObject();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			connectionPool.returnConnectionToConnectionPool(conn);
+		}
+		return array;
+	}
+
+	public static int insertSubject(Subject subject) {
+		Connection conn = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { subject.getName(), subject.getCode(), subject.getEcts(), subject.getNumberOfClasses(), subject.getIdFaculty() };
+		int generatedId = 0;
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, INSERT_SUBJECT, true, parametri);
+		ResultSet rs = null;
+		try {
+			ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				generatedId = rs.getInt(1);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connectionPool.returnConnectionToConnectionPool(conn);
+				return generatedId;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return generatedId;
+	}
+
+	public static int updateSubject(Subject subject) {
+		Connection conn = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { subject.getName(), subject.getCode(), subject.getEcts(), subject.getNumberOfClasses(), subject.getIdFaculty(), subject.getId() };
+		int flagSuccess = 0;
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, UPDATE_SUBJECT, true, parametri);
+		try {
+			flagSuccess = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connectionPool.returnConnectionToConnectionPool(conn);
+				return flagSuccess;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return flagSuccess;
+	}
+	
+	public static int deleteSubject(int subjectId) {
+		Connection conn = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { true, subjectId};
+		int flagSuccess = -1;
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, DELETE_SUBJECT, true, parametri);
+		try {
+			flagSuccess = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connectionPool.returnConnectionToConnectionPool(conn);
+				return flagSuccess;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return flagSuccess;
+	}
+	
+	public static JSONObject selectSubjectWithId(int id) {
+		JSONObject json = null;
+		JSONObject data = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { id };
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, SELECT_SUBJECT_WITH_ID, false, parametri);
+		try {
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				json = new JSONObject();
+				data = new JSONObject();
+				data.put("id", rs.getInt("id"));
+				data.put("subjectName", rs.getString("s.name"));
+				data.put("code", rs.getString("code"));
+				data.put("ects", rs.getString("ects"));
+				data.put("numberOfClasses", rs.getInt("numberOfClasses"));
+				data.put("idFaculty", rs.getInt("idFaculty"));
+				data.put("facultyName", rs.getString("f.name"));
+				json.put("dataObject", data);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			connectionPool.returnConnectionToConnectionPool(conn);
+		}
+		return json;
+	}
+}

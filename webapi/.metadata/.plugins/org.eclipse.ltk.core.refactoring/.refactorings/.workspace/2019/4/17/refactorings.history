@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;RapidAppDevelopment&apos; to &apos;LibraryWebService&apos;" description="Rename resource &apos;RapidAppDevelopment&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/RapidAppDevelopment" name="LibraryWebService" stamp="1556286349805" updateReferences="true"/>
+</session>

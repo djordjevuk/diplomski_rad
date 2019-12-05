@@ -1,0 +1,13 @@
+127.0.0.1 - - [18/Apr/2019:00:00:17 +0200] "GET /RapidAppDevelopment/rest/rad/getAll/user HTTP/1.1" 200 2070
+127.0.0.1 - - [18/Apr/2019:00:00:27 +0200] "GET /RapidAppDevelopment/rest/rad/getAll/book HTTP/1.1" 200 1726
+127.0.0.1 - - [18/Apr/2019:00:01:24 +0200] "GET /RapidAppDevelopment/rest/rad/getAll/user HTTP/1.1" 200 2070
+127.0.0.1 - - [18/Apr/2019:00:01:27 +0200] "GET /RapidAppDevelopment/rest/rad/getAll/book HTTP/1.1" 200 2393
+127.0.0.1 - - [18/Apr/2019:00:03:39 +0200] "GET /RapidAppDevelopment/rest/rad/getAll/user HTTP/1.1" 200 2070
+127.0.0.1 - - [18/Apr/2019:14:12:25 +0200] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [18/Apr/2019:14:17:46 +0200] "GET /RapidAppDevelopment/rest/rad/selectAll/user HTTP/1.1" 200 2070
+127.0.0.1 - - [18/Apr/2019:15:00:59 +0200] "GET /RapidAppDevelopment/rest/rad/selectAll/user HTTP/1.1" 200 2070
+127.0.0.1 - - [18/Apr/2019:15:01:46 +0200] "GET /RapidAppDevelopment/rest/rad/selectAll/user HTTP/1.1" 200 2070
+127.0.0.1 - - [18/Apr/2019:15:02:08 +0200] "GET /RapidAppDevelopment/rest/rad/selectAll/user HTTP/1.1" 200 2070
+127.0.0.1 - - [18/Apr/2019:15:02:19 +0200] "GET /RapidAppDevelopment/rest/rad/selectAll/book_borrowing HTTP/1.1" 404 1078
+127.0.0.1 - - [18/Apr/2019:15:12:58 +0200] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [18/Apr/2019:15:13:25 +0200] "GET /RapidAppDevelopment/rest/rad/selectAll/book_borrowing HTTP/1.1" 200 228

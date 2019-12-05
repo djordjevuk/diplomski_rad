@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Delete data</h1>
+<div mat-dialog-content>
+  <p>Do you want to delete the selected data?</p>
+</div>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button [mat-dialog-close]="data">Yes</button>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>No</button>
+</mat-dialog-actions>

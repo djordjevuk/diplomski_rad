@@ -1,0 +1,482 @@
+package org.unibl.etf.dr.rest;
+
+import java.text.SimpleDateFormat;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.json.JSONObject;
+import org.unibl.etf.dr.dao.ApprovalBookBorrowingDAO;
+import org.unibl.etf.dr.dao.BookBorrowingDAO;
+import org.unibl.etf.dr.dao.BookDAO;
+import org.unibl.etf.dr.dao.EmployeeDAO;
+import org.unibl.etf.dr.dao.UserDAO;
+import org.unibl.etf.dr.dto.ApprovalBookBorrowing;
+import org.unibl.etf.dr.dto.Book;
+import org.unibl.etf.dr.dto.BookBorrowing;
+import org.unibl.etf.dr.dto.Employee;
+import org.unibl.etf.dr.dto.User;
+
+@Path("/rad")
+public class RESTWebService {
+
+	// SELECT
+	@GET
+	@Path("/user")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectAllUsers() {
+		return Response.ok(UserDAO.selectUsers().toString()).build();
+	}
+
+	@GET
+	@Path("/book")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectAllBooks() {
+		return Response.ok(BookDAO.selectBooks().toString()).build();
+	}
+	
+	@GET
+	@Path("/book_borrowing")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectAllBookBorrowing() {
+		return Response.ok(BookBorrowingDAO.selectAllBookBorrowing().toString()).build();
+	}
+	
+	@GET
+	@Path("/employee")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectAllEmployee() {
+		return Response.ok(EmployeeDAO.selectEmployees().toString()).build();
+	}
+	
+	@GET
+	@Path("/approval_book_borrowing")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectAllApprovalBookBorrowing() {
+		return Response.ok(ApprovalBookBorrowingDAO.selectAllApprovalBookBorrowing().toString()).build();
+	}
+	
+	@GET
+	@Path("/select/user/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectUserWithId(@PathParam("id") int id) {
+		return Response.ok(UserDAO.selectUserWithId(id).toString()).build();
+	}
+	
+	@GET
+	@Path("/select/book/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectBookWithId(@PathParam("id") int id) {
+		return Response.ok(BookDAO.selectBookWithId(id).toString()).build();
+	}
+	
+	@GET
+	@Path("/select/book_borrowing/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectBookBorrowingWithId(@PathParam("id") int id) {
+		return Response.ok(BookBorrowingDAO.selectBookBorrowingWithId(id).toString()).build();
+	}
+	
+	@GET
+	@Path("/select/employee/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response selectEmployeeWithId(@PathParam("id") int id) {
+		return Response.ok(EmployeeDAO.selectEmployeeWithId(id).toString()).build();
+	}
+
+	// INSERT
+	@POST
+	@Path("/insert/user")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertUser(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		int generatedId = -1;
+		try {
+			receivedJson = new JSONObject(data);
+			User user = new User();
+			json = receivedJson.getJSONObject("dataObject");
+			user.setName(json.getString("name"));
+			user.setSurname(json.getString("surname"));
+			user.setUsername(json.getString("username"));
+			user.setEmail(json.getString("email"));
+			user.setGender(json.getString("gender"));
+			user.setDateOfBirth(sdf.parse(json.getString("dateOfBirth")));
+			user.setCountry(json.getString("country"));
+			user.setAddress(json.getString("address"));
+			generatedId = UserDAO.insertUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (generatedId != -1) {
+			try {
+				json.put("id", generatedId);
+				receivedJson.put("dataObject", json);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Response.ok(receivedJson.toString()).build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+
+	@POST
+	@Path("/insert/book")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertBook(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		int generatedId = -1;
+		try {
+			receivedJson = new JSONObject(data);
+			Book book = new Book();
+			json = receivedJson.getJSONObject("dataObject");
+			book.setTitle(json.getString("title"));
+			book.setAuthor(json.getString("author"));
+			book.setCategory(json.getString("category"));
+			book.setNumberOfPages(json.getInt("numberOfPages"));
+			book.setIsbn(json.getString("isbn"));
+			book.setPublisher(json.getString("publisher"));
+			book.setYearPublication(json.getInt("yearPublication"));
+			book.setAbout(json.getString("about"));
+			book.setSold(json.getBoolean("sold"));
+			generatedId = BookDAO.insertBook(book);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (generatedId != -1) {
+			try {
+				json.put("id", generatedId);
+				receivedJson.put("dataObject", json);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Response.ok(receivedJson.toString()).build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@POST
+	@Path("/insert/book_borrowing")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertBookBorrowing(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		int generatedId = -1;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			receivedJson = new JSONObject(data);
+			BookBorrowing bookBorr = new BookBorrowing();
+			json = receivedJson.getJSONObject("dataObject");
+			bookBorr.setIdUser(json.getInt("idUser"));
+			bookBorr.setIdBook(json.getInt("idBook"));
+			bookBorr.setDateOfBorrowing(sdf.parse(json.getString("dateOfBorrowing")));
+			bookBorr.setReturned(json.getBoolean("returned"));
+			generatedId = BookBorrowingDAO.insertBookBorrowing(bookBorr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (generatedId != -1) {
+			try {
+				json.put("id", generatedId);
+				receivedJson.put("dataObject", json);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Response.ok(receivedJson.toString()).build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@POST
+	@Path("/insert/employee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertEmployee(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		int generatedId = -1;
+		try {
+			receivedJson = new JSONObject(data);
+			Employee emp = new Employee();
+			json = receivedJson.getJSONObject("dataObject");
+			emp.setName(json.getString("name"));
+			emp.setSurname(json.getString("surname"));
+			emp.setUsername(json.getString("username"));
+			emp.setDateOfEmployment(sdf.parse(json.getString("dateOfEmployment")));
+			emp.setEmail(json.getString("email"));
+			generatedId = EmployeeDAO.insertEmployee(emp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (generatedId != -1) {
+			try {
+				json.put("id", generatedId);
+				receivedJson.put("dataObject", json);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Response.ok(receivedJson.toString()).build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@POST
+	@Path("/insert/approval_book_borrowing")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertApprovalBookBorrowing(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		int generatedId = -1;
+		try {
+			receivedJson = new JSONObject(data);
+			ApprovalBookBorrowing apprBookBorr = new ApprovalBookBorrowing();
+			json = receivedJson.getJSONObject("dataObject");
+			apprBookBorr.setIdBookBorrowing(json.getInt("idBookBorrowing"));
+			apprBookBorr.setIdEmployee(json.getInt("idEmployee"));
+			generatedId = ApprovalBookBorrowingDAO.insertApprovalBookBorrowing(apprBookBorr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (generatedId != -1) {
+			try {
+				json.put("id", generatedId);
+				receivedJson.put("dataObject", json);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Response.ok(receivedJson.toString()).build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+
+	// UPDATE
+	@POST
+	@Path("/update/user")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response updateUser(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		int flagSuccess = 0;
+		try {
+			receivedJson = new JSONObject(data);
+			User user = new User();
+			json = receivedJson.getJSONObject("dataObject");
+			user.setId(json.getInt("id"));
+			user.setName(json.getString("name"));
+			user.setSurname(json.getString("surname"));
+			user.setUsername(json.getString("username"));
+			user.setEmail(json.getString("email"));
+			user.setGender(json.getString("gender"));
+			user.setDateOfBirth(sdf.parse(json.getString("dateOfBirth")));
+			user.setCountry(json.getString("country"));
+			user.setAddress(json.getString("address"));
+			flagSuccess = UserDAO.updateUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+
+	@POST
+	@Path("/update/book")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response updateBook(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		int flagSuccess = 0;
+		try {
+			receivedJson = new JSONObject(data);
+			Book book = new Book();
+			json = receivedJson.getJSONObject("dataObject");
+			book.setId(json.getInt("id"));
+			book.setTitle(json.getString("title"));
+			book.setAuthor(json.getString("author"));
+			book.setCategory(json.getString("category"));
+			book.setNumberOfPages(json.getInt("numberOfPages"));
+			book.setIsbn(json.getString("isbn"));
+			book.setPublisher(json.getString("publisher"));
+			book.setYearPublication(json.getInt("yearPublication"));
+			book.setAbout(json.getString("about"));
+			book.setSold(json.getBoolean("sold"));
+			flagSuccess = BookDAO.updateBook(book);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@POST
+	@Path("/update/book_borrowing")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response updateBookBorrowing(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		int flagSuccess = 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			receivedJson = new JSONObject(data);
+			BookBorrowing bookBorr = new BookBorrowing();
+			json = receivedJson.getJSONObject("dataObject");
+			bookBorr.setId(json.getInt("id"));
+			bookBorr.setIdUser(json.getInt("idUser"));
+			bookBorr.setIdBook(json.getInt("idBook"));
+			bookBorr.setDateOfBorrowing(sdf.parse(json.getString("dateOfBorrowing")));
+			bookBorr.setReturned(json.getBoolean("returned"));
+			flagSuccess = BookBorrowingDAO.updateBookBorrowing(bookBorr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@POST
+	@Path("/update/employee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response updateEmployee(String data) {
+		JSONObject receivedJson = null;
+		JSONObject json = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		int flagSuccess = 0;
+		try {
+			receivedJson = new JSONObject(data);
+			Employee emp = new Employee();
+			json = receivedJson.getJSONObject("dataObject");
+			emp.setId(json.getInt("id"));
+			emp.setName(json.getString("name"));
+			emp.setSurname(json.getString("surname"));
+			emp.setUsername(json.getString("username"));
+			emp.setDateOfEmployment(sdf.parse(json.getString("dateOfEmployment")));
+			emp.setEmail(json.getString("email"));
+			flagSuccess = EmployeeDAO.updateEmployee(emp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+
+	// DELETE
+	@DELETE
+	@Path("/delete/user/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteUser(@PathParam("id") int id) {
+		int flagSuccess = 0;
+		try {
+			flagSuccess = UserDAO.deleteUser(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+
+	@DELETE
+	@Path("/delete/book/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteBook(@PathParam("id") int id) {
+		int flagSuccess = 0;
+		try {
+			flagSuccess = BookDAO.deleteBook(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@DELETE
+	@Path("/delete/book_borrowing/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteBookBorrowing(@PathParam("id") int id) {
+		int flagSuccess = 0;
+		try {
+			flagSuccess = BookBorrowingDAO.deleteBookBorrowing(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@DELETE
+	@Path("/delete/employee/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteEmployee(@PathParam("id") int id) {
+		int flagSuccess = 0;
+		try {
+			flagSuccess = EmployeeDAO.deleteEmployee(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+	
+	@DELETE
+	@Path("/delete/approval_book_borrowing/{idBookBorrowing}/{idEmployee}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteBookBorrowing(@PathParam("idBookBorrowing") int idBookBorrowing, @PathParam("idEmployee") int idEmployee) {
+		int flagSuccess = 0;
+		try {
+			flagSuccess = ApprovalBookBorrowingDAO.deleteApprovalBookBorrowing(idBookBorrowing, idEmployee);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (flagSuccess != 0) {
+			return Response.ok("OK").build();
+		} else {
+			return Response.ok(null).build();
+		}
+	}
+}

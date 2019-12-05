@@ -1,0 +1,86 @@
+package org.unibl.etf.dr.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.unibl.etf.dr.dto.User;
+
+public class UserDAO {
+
+	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
+
+	private static final String SELECT_USERS = "select * from user;";
+	private static final String INSERT_USER = "insert into user(name, surname, username, email, address, gender, dateOfBirth, country) values (?,?,?,?,?,?,?,?);";
+	
+	public static JSONArray selectUsers() {
+		JSONObject json = null;
+		JSONObject data = null;
+		JSONArray array = new JSONArray();
+		Connection conn = null;
+		ResultSet rs = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = {};
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, SELECT_USERS, false, parametri);
+		try {
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				json = new JSONObject();
+				data = new JSONObject();
+				json.put("id", rs.getInt("id"));
+				data.put("name", rs.getString("name"));
+				data.put("surname", rs.getString("surname"));
+				data.put("username", rs.getString("username"));
+				data.put("email", rs.getString("email"));
+				data.put("address", rs.getString("address"));
+				data.put("gender", rs.getString("gender"));
+				data.put("dateOfBirth", rs.getDate("dateOfBirth").toString());
+				data.put("country", rs.getString("country"));
+				json.put("dataObject", data);
+				array.put(json);
+				json = new JSONObject();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			connectionPool.returnConnectionToConnectionPool(conn);
+		}
+		return array;
+	}
+
+	public static int insertUser(User user) {
+		Connection conn = null;
+		conn = connectionPool.getConnection();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Object parametri[] = { user.getName(), user.getSurname(), user.getUsername(), user.getEmail(),
+				user.getAddress(), user.getGender(), sdf.format(user.getDateOfBirth()), user.getCountry() };
+		int generatedId = -1;
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, INSERT_USER, true, parametri);
+		try {
+			generatedId = ps.executeUpdate();
+			System.out.println("Generated id: "+ generatedId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connectionPool.returnConnectionToConnectionPool(conn);
+				return generatedId;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return generatedId;
+	}
+
+
+}

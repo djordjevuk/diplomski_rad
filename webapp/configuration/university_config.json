@@ -1,0 +1,451 @@
+{
+  "title": "University",
+  "restServiceBaseUrl": "http://localhost:8080/UniversityManagement/rest/universityService",
+  "menu": [
+    {
+      "label": "Faculties",
+      "name": "faculty",
+      "order": 0
+    },
+    {
+      "label": "Study programs",
+      "name": "study_program",
+      "order": 1
+    },
+    {
+      "label": "Subjects",
+      "name": "subject",
+      "order": 2
+    },
+    {
+      "label": "Subjects on study programs",
+      "name": "subject_on_study_program",
+      "order": 3
+    }
+  ],
+  "formConfigDbObjects": {
+    "faculty": {
+      "dataTableConfig": {
+        "showCrudActionsColumn": true,
+        "crudActionsConfig": {
+          "showCreateAction": true,
+          "showReadAction": true,
+          "showUpdateAction": true,
+          "showDeleteAction": true
+        }
+      },
+      "formFieldsConfig": [
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ID",
+          "name": "id",
+          "isPrimaryKey": true,
+          "primaryKeyPosition": 0,
+          "order": 0
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Name",
+          "name": "name",
+          "order": 1,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Name is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Address",
+          "name": "address",
+          "order": 2,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Address is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Established",
+          "name": "established",
+          "order": 3,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 45,
+              "message": "Maximum length is 45 characters"
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "label": "Telephone",
+          "name": "telephone",
+          "order": 4,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 150,
+              "message": "Maximum length is 150 characters"
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "label": "Web site",
+          "name": "webSite",
+          "order": 5,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 45,
+              "message": "Maximum length is 45 characters"
+            }
+          ]
+        }
+      ]
+    },
+    "study_program": {
+      "dataTableConfig": {
+        "showCrudActionsColumn": true,
+        "crudActionsConfig": {
+          "showCreateAction": true,
+          "showReadAction": true,
+          "showUpdateAction": true,
+          "showDeleteAction": true
+        }
+      },
+      "formFieldsConfig": [
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ID",
+          "name": "id",
+          "isPrimaryKey": true,
+          "primaryKeyPosition": 0,
+          "order": 0
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Name",
+          "name": "studyProgramName",
+          "order": 1,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Name is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Code",
+          "name": "code",
+          "order": 2,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Code of study program is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 45,
+              "message": "Maximum length is 45 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Cycle",
+          "name": "cycle",
+          "order": 3,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Cycle of study program is required"
+            },
+            {
+              "name": "pattern",
+              "parameter": "^[0-9]+$",
+              "message": "Accept only nummber"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Duration",
+          "name": "duration",
+          "order": 4,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 45,
+              "message": "Maximum length is 45 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Total ECTS",
+          "name": "totalECTS",
+          "order": 5,
+          "validators": [
+            {
+              "name": "pattern",
+              "parameter": "^[0-9]+$",
+              "message": "Accept only nummber"
+            }
+          ]
+        },
+        {
+          "type": "inputforeignkey",
+          "inputType": "text",
+          "label": "Faculty",
+          "name": "idFaculty",
+          "order": 6,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Faculty is required"
+            }
+          ],
+          "isForeignKey": true,
+          "foreignKeyConfig": {
+            "referencedTable": "faculty",
+            "referencedColumn": "id",
+            "columnToShow": "facultyName"
+          }
+        }
+      ]
+    },
+    "subject": {
+      "dataTableConfig": {
+        "showCrudActionsColumn": true,
+        "crudActionsConfig": {
+          "showCreateAction": true,
+          "showReadAction": true,
+          "showUpdateAction": true,
+          "showDeleteAction": true
+        }
+      },
+      "formFieldsConfig": [
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ID",
+          "name": "id",
+          "isPrimaryKey": true,
+          "primaryKeyPosition": 0,
+          "order": 0
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Name",
+          "name": "subjectName",
+          "order": 1,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Name is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Code",
+          "name": "code",
+          "order": 2,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Code of subject is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 45,
+              "message": "Maximum length is 45 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ECTS",
+          "name": "ects",
+          "order": 3,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "ECTS is required"
+            },
+            {
+              "name": "pattern",
+              "parameter": "^[0-9]+$",
+              "message": "Accept only nummber"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Number of classes",
+          "name": "numberOfClasses",
+          "order": 4,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 50,
+              "message": "Maximum length is 50 characters"
+            }
+          ]
+        },
+        {
+          "type": "inputforeignkey",
+          "inputType": "text",
+          "label": "Faculty",
+          "name": "idFaculty",
+          "order": 5,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Faculty is required"
+            }
+          ],
+          "isForeignKey": true,
+          "foreignKeyConfig": {
+            "referencedTable": "faculty",
+            "referencedColumn": "id",
+            "columnToShow": "facultyName"
+          }
+        }
+      ]
+    },
+    "subject_on_study_program": {
+      "dataTableConfig": {
+        "showCrudActionsColumn": true,
+        "crudActionsConfig": {
+          "showCreateAction": true,
+          "showReadAction": true,
+          "showUpdateAction": false,
+          "showDeleteAction": true
+        }
+      },
+      "formFieldsConfig": [
+        {
+          "type": "inputforeignkey",
+          "inputType": "text",
+          "label": "Subject",
+          "name": "idSubject",
+          "primaryKeyPosition": 0,
+          "order": 0,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Subject is required"
+            }
+          ],
+          "isPrimaryKey": true,
+          "isForeignKey": true,
+          "foreignKeyConfig": {
+            "referencedTable": "subject",
+            "referencedColumn": "id",
+            "columnToShow": "subjectName"
+          }
+        },
+        {
+          "type": "inputforeignkey",
+          "inputType": "text",
+          "label": "Study program",
+          "name": "idStudyProgram",
+          "primaryKeyPosition": 1,
+          "order": 1,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Study program is required"
+            }
+          ],
+          "isPrimaryKey": true,
+          "isForeignKey": true,
+          "foreignKeyConfig": {
+            "referencedTable": "study_program",
+            "referencedColumn": "id",
+            "columnToShow": "studyProgramName"
+          }
+        },
+        {
+          "type": "select",
+          "label": "Type of subject",
+          "name": "typeOfSubject",
+          "order": 2,
+          "options": [
+            "Obavezan",
+            "Izborni"
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Semester",
+          "name": "semester",
+          "order": 3,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 45,
+              "message": "Maximum length is 45 characters"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

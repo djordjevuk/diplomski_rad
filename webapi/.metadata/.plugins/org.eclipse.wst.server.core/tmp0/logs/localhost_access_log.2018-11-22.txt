@@ -1,0 +1,3 @@
+127.0.0.1 - - [22/Nov/2018:08:41:01 +0100] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [22/Nov/2018:08:41:24 +0100] "GET /RESTWebService/rest/rad/filterSelectOptions HTTP/1.1" 200 417
+127.0.0.1 - - [22/Nov/2018:08:41:24 +0100] "GET /RESTWebService/rest/rad/products HTTP/1.1" 200 8392

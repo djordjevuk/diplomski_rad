@@ -1,0 +1,10 @@
+127.0.0.1 - - [02/Nov/2018:11:31:42 +0100] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [02/Nov/2018:11:31:45 +0100] "GET /RapidAppDevelopment/ HTTP/1.1" 404 1098
+127.0.0.1 - - [02/Nov/2018:11:31:46 +0100] "GET /favicon.ico HTTP/1.1" 404 1085
+127.0.0.1 - - [02/Nov/2018:11:35:37 +0100] "GET /RapidAppDevelopment/rest/rad/firstApp HTTP/1.1" 200 573
+127.0.0.1 - - [02/Nov/2018:12:37:34 +0100] "GET /RapidAppDevelopment/rest/rad/firstApp HTTP/1.1" 200 573
+127.0.0.1 - - [02/Nov/2018:13:20:09 +0100] "GET /RapidAppDevelopment/rest/rad/firstApp HTTP/1.1" 200 573
+127.0.0.1 - - [02/Nov/2018:13:20:38 +0100] "GET /RapidAppDevelopment/rest/rad/firstApp HTTP/1.1" 200 573
+127.0.0.1 - - [02/Nov/2018:13:20:43 +0100] "GET /RapidAppDevelopment/rest/rad/firstApp HTTP/1.1" 200 573
+127.0.0.1 - - [02/Nov/2018:13:27:07 +0100] "GET /RapidAppDevelopment/rest/rad/firstApp HTTP/1.1" 200 573
+127.0.0.1 - - [02/Nov/2018:14:41:47 +0100] "GET /RapidAppDevelopment/rest/rad/firstApp HTTP/1.1" 200 573

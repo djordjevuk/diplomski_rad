@@ -1,0 +1,7 @@
+<mat-nav-list>
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <div class="menu-sidebar-link-container">
+        <ng-container *ngFor="let link of sideMenu;" dynamicField [field]="link">
+        </ng-container>
+      </div>
+</mat-nav-list>

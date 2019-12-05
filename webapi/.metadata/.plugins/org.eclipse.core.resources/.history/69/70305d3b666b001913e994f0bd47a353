@@ -1,0 +1,169 @@
+package org.unibl.etf.dr.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.unibl.etf.dr.dto.StudyProgram;
+
+public class StudyProgramDAO {
+
+	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
+
+	private static final String SELECT_STUDY_PROGRAMS = "select sp.*, f.name from study_program as sp inner join faculty as f on sp.idFaculty = f.id where sp.deleted=?;";
+	private static final String INSERT_STUDY_PROGRAM = "insert into study_program(name, code, cycle, duration, totalECTS, idFaculty) values (?,?,?,?,?,?);";
+	private static final String UPDATE_STUDY_PROGRAM = "update study_program set name=?, code=?, cycle=?, duration=?, totalECTS=?, idFaculty=? where id=?;";
+	private static final String DELETE_STUDY_PROGRAM = "update study_program set deleted=? where id=?;";
+	private static final String SELECT_STUDY_PROGRAM_WITH_ID = "select sp.*, f.name from study_program as sp inner join faculty as f on sp.idFaculty = f.id where sp.id=?;";
+
+	public static JSONArray selectStudyPrograms() {
+		JSONObject json = null;
+		JSONObject data = null;
+		JSONArray array = new JSONArray();
+		Connection conn = null;
+		ResultSet rs = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { false };
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, SELECT_STUDY_PROGRAMS, false, parametri);
+		try {
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				json = new JSONObject();
+				data = new JSONObject();
+				data.put("id", rs.getInt("id"));
+				data.put("studyProgramName", rs.getString("name"));
+				data.put("code", rs.getString("code"));
+				data.put("cycle", rs.getInt("cycle"));
+				data.put("duration", rs.getString("duration"));
+				data.put("totalECTS", rs.getInt("totalECTS"));
+				data.put("idFaculty", rs.getInt("idFaculty"));
+				data.put("facultyName", rs.getString("f.name"));
+				json.put("dataObject", data);
+				array.put(json);
+				json = new JSONObject();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			connectionPool.returnConnectionToConnectionPool(conn);
+		}
+		return array;
+	}
+
+	public static int insertStudyProgram(StudyProgram sp) {
+		Connection conn = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { sp.getName(), sp.getCode(), sp.getCycle(), sp.getDuration(), sp.getTotalECTS(), sp.getIdFaculty() };
+		int generatedId = -1;
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, INSERT_STUDY_PROGRAM, true, parametri);
+		ResultSet rs = null;
+		try {
+			ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				generatedId = rs.getInt(1);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connectionPool.returnConnectionToConnectionPool(conn);
+				return generatedId;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return generatedId;
+	}
+
+	public static int updateStudyProgram(StudyProgram sp) {
+		Connection conn = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { sp.getName(), sp.getCode(), sp.getCycle(), sp.getDuration(), sp.getTotalECTS(), sp.getIdFaculty() , sp.getId() };
+		int flagSuccess = 0;
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, UPDATE_STUDY_PROGRAM, true, parametri);
+		try {
+			flagSuccess = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connectionPool.returnConnectionToConnectionPool(conn);
+				return flagSuccess;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return flagSuccess;
+	}
+	
+	public static int deleteStudyProgram(int spId) {
+		Connection conn = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { true, spId};
+		int flagSuccess = 0;
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, DELETE_STUDY_PROGRAM, true, parametri);
+		try {
+			flagSuccess = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connectionPool.returnConnectionToConnectionPool(conn);
+				return flagSuccess;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return flagSuccess;
+	}
+	
+	public static JSONObject selectStudyProgramWithId(int id) {
+		JSONObject json = null;
+		JSONObject data = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		conn = connectionPool.getConnection();
+		Object parametri[] = { id };
+		PreparedStatement ps = DAOUtil.preparedStatement(conn, SELECT_STUDY_PROGRAM_WITH_ID, false, parametri);
+		try {
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				json = new JSONObject();
+				data = new JSONObject();
+				data.put("id", rs.getInt("id"));
+				data.put("studyProgramName", rs.getString("name"));
+				data.put("code", rs.getString("code"));
+				data.put("cycle", rs.getInt("cycle"));
+				data.put("duration", rs.getString("duration"));
+				data.put("totalECTS", rs.getInt("totalECTS"));
+				data.put("idFaculty", rs.getInt("idFaculty"));
+				data.put("facultyName", rs.getInt("f.name"));
+				json.put("dataObject", data);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			connectionPool.returnConnectionToConnectionPool(conn);
+		}
+		return json;
+	}
+
+}

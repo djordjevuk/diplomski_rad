@@ -1,0 +1,44 @@
+package org.unibl.etf.dr.dto;
+
+import java.io.Serializable;
+
+import org.json.JSONObject;
+
+public class AppConfiguration implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private int id;
+	private String applicationName;
+	private JSONObject configurationParameteres;
+	
+	public AppConfiguration() {
+		super();
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public String getApplicationName() {
+		return applicationName;
+	}
+	
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName;
+	}
+	
+	public JSONObject getConfigurationParameteres() {
+		return configurationParameteres;
+	}
+	
+	public void setConfigurationParameteres(JSONObject configurationParameteres) {
+		this.configurationParameteres = configurationParameteres;
+	}
+}

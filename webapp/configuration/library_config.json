@@ -1,0 +1,405 @@
+{
+  "title": "Library",
+  "restServiceBaseUrl": "http://localhost:8080/LibraryManagement/rest/libraryService",
+  "menu": [
+    {
+      "label": "Members",
+      "name": "member",
+      "order": 0
+    },
+    {
+      "label": "Books",
+      "name": "book",
+      "order": 1
+    },
+    {
+      "label": "Book borrowing",
+      "name": "book_borrowing",
+      "order": 2
+    }
+  ],
+  "formConfigDbObjects": {
+    "member": {
+      "dataTableConfig": {
+        "showCrudActionsColumn": true,
+        "crudActionsConfig": {
+          "showCreateAction": true,
+          "showReadAction": true,
+          "showUpdateAction": true,
+          "showDeleteAction": true
+        }
+      },
+      "formFieldsConfig": [
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ID",
+          "name": "id",
+          "isPrimaryKey": true,
+          "primaryKeyPosition": 0,
+          "order": 0
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Number of membership card",
+          "name": "numberOfMembershipCard",
+          "order": 1,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Number of membership card is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 50,
+              "message": "Maximum length is 50 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Name",
+          "name": "name",
+          "order": 2,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Name is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 50,
+              "message": "Maximum length is 50 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Surname",
+          "name": "surname",
+          "order": 3,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Surname is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 50,
+              "message": "Maximum length is 50 characters"
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "label": "Address",
+          "name": "address",
+          "order": 4,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 150,
+              "message": "Maximum length is 150 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "email",
+          "label": "Email",
+          "name": "email",
+          "order": 5,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Email is required"
+            },
+            {
+              "name": "pattern",
+              "parameter": "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",
+              "message": "Invalid email"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "label": "Telephone",
+          "name": "telephone",
+          "order": 6,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "datetime",
+          "datetimepickerType": "calendar",
+          "label": "Date of membership",
+          "name": "dateOfMembership",
+          "showInTable": true,
+          "order": 7,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Date of membership is required"
+            }
+          ]
+        }
+      ]
+    },
+    "book": {
+      "dataTableConfig": {
+        "showCrudActionsColumn": true,
+        "crudActionsConfig": {
+          "showCreateAction": true,
+          "showReadAction": true,
+          "showUpdateAction": true,
+          "showDeleteAction": true
+        }
+      },
+      "formFieldsConfig": [
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ID",
+          "name": "id",
+          "isPrimaryKey": true,
+          "primaryKeyPosition": 0,
+          "order": 0
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Title",
+          "name": "title",
+          "order": 1,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Title is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Author",
+          "name": "author",
+          "order": 2,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Author is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Category",
+          "name": "category",
+          "order": 3,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Number of pages",
+          "name": "numberOfPages",
+          "order": 4,
+          "validators": [
+            {
+              "name": "pattern",
+              "parameter": "^[0-9]+$",
+              "message": "Accept only number"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ISBN",
+          "name": "isbn",
+          "order": 5,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Publisher",
+          "name": "publisher",
+          "order": 6,
+          "showInTable": false,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Publisher is required"
+            },
+            {
+              "name": "maxlength",
+              "parameter": 100,
+              "message": "Maximum length is 100 characters"
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "Year of publication",
+          "name": "yearPublication",
+          "order": 7,
+          "validators": [
+            {
+              "name": "pattern",
+              "parameter": "^[0-9]+$",
+              "message": "Accept only number"
+            }
+          ]
+        },
+        {
+          "type": "textarea",
+          "label": "About",
+          "name": "about",
+          "order": 8,
+          "validators": [
+            {
+              "name": "maxlength",
+              "parameter": 1000,
+              "message": "Maximum length is 1000 characters"
+            }
+          ]
+        }
+      ]
+    },
+    "book_borrowing": {
+      "dataTableConfig": {
+        "showCrudActionsColumn": true,
+        "crudActionsConfig": {
+          "showCreateAction": true,
+          "showReadAction": true,
+          "showUpdateAction": true,
+          "showDeleteAction": true
+        }
+      },
+      "formFieldsConfig": [
+        {
+          "type": "input",
+          "inputType": "text",
+          "label": "ID",
+          "name": "id",
+          "isPrimaryKey": true,
+          "primaryKeyPosition": 0,
+          "order": 0
+        },
+        {
+          "type": "inputforeignkey",
+          "inputType": "text",
+          "label": "Member",
+          "name": "idMember",
+          "order": 1,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Member is required"
+            }
+          ],
+          "isForeignKey": true,
+          "foreignKeyConfig": {
+            "referencedTable": "member",
+            "referencedColumn": "id",
+            "columnToShow": "memberOfLibrary"
+          }
+        },
+        {
+          "type": "inputforeignkey",
+          "inputType": "text",
+          "label": "Book",
+          "name": "idBook",
+          "order": 2,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Book is required"
+            }
+          ],
+          "isForeignKey": true,
+          "foreignKeyConfig": {
+            "referencedTable": "book",
+            "referencedColumn": "id",
+            "columnToShow": "title"
+          }
+        },
+        {
+          "type": "datetime",
+          "datetimepickerType": "calendar",
+          "label": "Date of borrowing",
+          "name": "dateOfBorrowing",
+          "order": 3,
+          "showInTable": true,
+          "validators": [
+            {
+              "name": "required",
+              "message": "Date of borrowing is required"
+            }
+          ]
+        },
+        {
+          "type": "datetime",
+          "datetimepickerType": "calendar",
+          "label": "Date of returning",
+          "name": "dateOfReturning",
+          "order": 4
+        },
+        {
+          "type": "checkbox",
+          "label": "Returned",
+          "name": "returned",
+          "order": 5,
+          "showInTable": true
+        }
+      ]
+    }
+  }
+}

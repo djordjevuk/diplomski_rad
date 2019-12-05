@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;org.unibl.etf.dr.rest.RESTWebService&apos; to &apos;LibraryService&apos;&#x0D;&#x0A;- Original project: &apos;LibraryManagement&apos;&#x0D;&#x0A;- Original element: &apos;org.unibl.etf.dr.rest.RESTWebService&apos;&#x0D;&#x0A;- Renamed element: &apos;org.unibl.etf.dr.rest.LibraryService&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;RESTWebService&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;org.unibl.etf.dr.rest{RESTWebService.java[RESTWebService" matchStrategy="1" name="LibraryService" qualified="false" references="true" similarDeclarations="false" stamp="1556441177413" textual="false" version="1.0"/>
+</session>
